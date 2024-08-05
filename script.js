@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function fetchData() {
         // Supponiamo che il server Modbus sia raggiungibile tramite delle API REST
         fetch('http://192.168.10.5/api/modbus/19625')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('temp1').textContent = data.value;
             })
@@ -12,7 +17,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
 
         fetch('http://192.168.10.5/api/modbus/19653')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('temp2').textContent = data.value;
             })
